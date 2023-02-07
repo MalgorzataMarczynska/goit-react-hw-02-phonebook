@@ -25,15 +25,17 @@ export class App extends React.Component {
 
   handleChange = evt => {
     const { name, value } = evt.target;
+    this.setState({ [name]: value });
+  };
+  handleFilter = event => {
     const results = this.state.contacts.filter(contact => {
-      if (evt.target.value === '') return this.state.contacts;
+      if (event.target.value === '') return this.state.contacts;
       return contact.name
         .toLowerCase()
-        .includes(evt.target.value.toLowerCase());
+        .includes(event.target.value.toLowerCase());
     });
-    this.setState({ [name]: value, filters: results });
+    this.setState({ filters: results });
   };
-
   handleSubmit = e => {
     e.preventDefault();
     const { name, number } = this.state;
@@ -43,10 +45,8 @@ export class App extends React.Component {
       const contacts = [...state.contacts, contact];
       return { contacts, name: '', number: '' };
     });
-    console.log(
-      `Added as: ${this.state.name}, contacts: ${this.state.contacts}, number: ${this.state.number}`
-    );
   };
+  // resetFilter = () =>
 
   render() {
     const { filters, name, number } = this.state;
@@ -87,14 +87,13 @@ export class App extends React.Component {
           <input
             type="text"
             name="filters"
-            value={filters}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            onChange={this.handleChange}
+            onChange={this.handleFilter}
             id={this.filterInputId}
           />
           <ul>
-            {this.state.filters === ''
+            {filters === ''
               ? this.state.contacts.map(contact => {
                   return (
                     <li key={contact.id}>
@@ -102,7 +101,7 @@ export class App extends React.Component {
                     </li>
                   );
                 })
-              : this.state.filters.map(contact => {
+              : filters.map(contact => {
                   return (
                     <li key={contact.id}>
                       {contact.name}: {contact.number}
