@@ -1,0 +1,22 @@
+.filter {
+  display: flex;
+  flex-direction: column;
+  max-width: 20vw;
+}
+.input {
+  margin-top: 0.5em;
+  appearance: none;
+  border: 1px solid lightgray;
+  font-size: 14px;
+  border-radius: 5px;
+}
+.input:hover,
+.input:focus {
+  outline: none;
+  appearance: none;
+  border: 2px solid rgb(207, 235, 247);
+  box-shadow: 1px 1px 3px 2px rgb(207, 235, 247);
+}
+.label {
+  font-size: 18px;
+}

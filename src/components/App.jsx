@@ -1,5 +1,8 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
+import { Filter } from './filter/Filter.js';
+import { ContactList } from './contact_list/ContactList.js';
+import { ContactItem } from './contact_item/ContactItem.js';
 
 // const INITIAL_STATE = {
 //   contacts: [],
@@ -22,6 +25,7 @@ export class App extends React.Component {
   state = { ...INITIAL_STATE };
   nameInputId = nanoid();
   phoneInputId = nanoid();
+  filterInputId = nanoid();
 
   handleChange = evt => {
     const { name, value } = evt.target;
@@ -53,7 +57,7 @@ export class App extends React.Component {
 
     return (
       <div>
-        <h1>Phonebook</h1>
+        <h2>Phonebook</h2>
         <section>
           <form onSubmit={this.handleSubmit}>
             <label htmlFor={this.nameInputId}>Name</label>
@@ -83,32 +87,17 @@ export class App extends React.Component {
         </section>
         <section>
           <h2>Contacts</h2>
-          <label htmlFor={this.filterInputId}>Find contacts by name</label>
-          <input
-            type="text"
-            name="filters"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            onChange={this.handleFilter}
-            id={this.filterInputId}
-          />
-          <ul>
-            {filters === ''
-              ? this.state.contacts.map(contact => {
-                  return (
-                    <li key={contact.id}>
-                      {contact.name}: {contact.number}
-                    </li>
-                  );
-                })
-              : filters.map(contact => {
-                  return (
-                    <li key={contact.id}>
-                      {contact.name}: {contact.number}
-                    </li>
-                  );
-                })}
-          </ul>
+          <Filter
+            inputId={this.filterInputId}
+            searchQuery={this.handleFilter}
+          ></Filter>
+          <ContactList>
+            {filters === '' ? (
+              <ContactItem stateArray={this.state.contacts}></ContactItem>
+            ) : (
+              <ContactItem stateArray={this.state.filters}></ContactItem>
+            )}
+          </ContactList>
         </section>
       </div>
     );
