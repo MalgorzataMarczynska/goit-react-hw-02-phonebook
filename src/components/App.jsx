@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { Filter } from './filter/Filter.js';
 import { ContactList } from './contact_list/ContactList.js';
 import { ContactItem } from './contact_item/ContactItem.js';
+import { ContactForm } from './contact_form/ContactForm.js';
 
 // const INITIAL_STATE = {
 //   contacts: [],
@@ -18,8 +19,6 @@ const INITIAL_STATE = {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ],
   filters: '',
-  name: '',
-  number: '',
 };
 export class App extends React.Component {
   state = { ...INITIAL_STATE };
@@ -50,43 +49,23 @@ export class App extends React.Component {
       return { contacts, name: '', number: '' };
     });
   };
-  // resetFilter = () =>
 
   render() {
-    const { filters, name, number } = this.state;
+    const { filters } = this.state;
 
     return (
       <div>
-        <h2>Phonebook</h2>
+        <h1 className="main-title">Phonebook</h1>
         <section>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor={this.nameInputId}>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              onChange={this.handleChange}
-              id={this.nameInputId}
-            />
-            <label htmlFor={this.phoneInputId}>Number</label>
-            <input
-              type="tel"
-              name="number"
-              value={number}
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              onChange={this.handleChange}
-              id={this.phoneInputId}
-            />
-            <button type="submit">Add contact</button>
-          </form>
+          <ContactForm
+            nameInputId={this.nameInputId}
+            phoneInputId={this.phoneInputId}
+            inputChange={this.handleChange}
+            leaveSubmit={this.handleSubmit}
+          ></ContactForm>
         </section>
         <section>
-          <h2>Contacts</h2>
+          <h2 className="title">Contacts</h2>
           <Filter
             inputId={this.filterInputId}
             searchQuery={this.handleFilter}

@@ -14,3 +14,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.main-title {
+  font-size: 40px;
+  color: rgb(11, 11, 141);
+}
+.title {
+  font-size: 30px;
+  color: rgb(11, 11, 141);
+}
