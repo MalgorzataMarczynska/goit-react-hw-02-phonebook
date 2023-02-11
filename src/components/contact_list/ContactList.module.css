@@ -1,5 +1,5 @@
 .list {
   margin-top: 1.5em;
-  background-color: rgb(207, 235, 247);
+  max-width: 30vw;
   list-style-type: square;
 }

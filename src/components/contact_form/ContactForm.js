@@ -1,5 +1,5 @@
 import css from './ContactForm.module.css';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 export class ContactForm extends React.Component {
   constructor(props) {
@@ -48,3 +48,9 @@ export class ContactForm extends React.Component {
     );
   }
 }
+ContactForm.propTypes = {
+  nameInputId: PropTypes.string,
+  phoneInputId: PropTypes.string,
+  inputChange: PropTypes.func,
+  leaveSubmit: PropTypes.func,
+};

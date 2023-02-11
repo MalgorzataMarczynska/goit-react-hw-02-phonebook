@@ -7,9 +7,7 @@ import { ContactForm } from './contact_form/ContactForm.js';
 
 // const INITIAL_STATE = {
 //   contacts: [],
-//   filter: '',
-//   name: '',
-//   number: '',
+//   filters: '',
 // };
 const INITIAL_STATE = {
   contacts: [
@@ -41,12 +39,23 @@ export class App extends React.Component {
   };
   handleSubmit = e => {
     e.preventDefault();
+    e.target.reset();
     const { name, number } = this.state;
     const nameId = nanoid();
     const contact = { id: nameId, name, number };
+    const isDuplicate = this.state.contacts.find(cont =>
+      cont.name.toLowerCase().includes(contact.name.toLowerCase())
+    );
     this.setState(state => {
+      if (isDuplicate) return alert(`${contact.name} is already in contacts`);
       const contacts = [...state.contacts, contact];
-      return { contacts, name: '', number: '' };
+      return { contacts };
+    });
+  };
+  removeContact = id => {
+    this.setState(state => {
+      const contacts = this.state.contacts.filter(item => item.id !== id);
+      return { contacts };
     });
   };
 
@@ -72,9 +81,15 @@ export class App extends React.Component {
           ></Filter>
           <ContactList>
             {filters === '' ? (
-              <ContactItem stateArray={this.state.contacts}></ContactItem>
+              <ContactItem
+                stateArray={this.state.contacts}
+                removeItem={this.removeContact}
+              ></ContactItem>
             ) : (
-              <ContactItem stateArray={this.state.filters}></ContactItem>
+              <ContactItem
+                stateArray={this.state.filters}
+                removeItem={this.removeContact}
+              ></ContactItem>
             )}
           </ContactList>
         </section>
