@@ -1,9 +1,9 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { Filter } from './filter/Filter.js';
-import { ContactList } from './contact_list/ContactList.js';
-import { ContactItem } from './contact_item/ContactItem.js';
-import { ContactForm } from './contact_form/ContactForm.js';
+import { Filter } from './Filter/Filter.js';
+import { ContactList } from './ContactList/ContactList.js';
+import { ContactItem } from './ContactItem/ContactItem.js';
+import { ContactForm } from './ContactForm/ContactForm.js';
 
 // const INITIAL_STATE = {
 //   contacts: [],
@@ -20,22 +20,26 @@ const INITIAL_STATE = {
 };
 export class App extends React.Component {
   state = { ...INITIAL_STATE };
-  nameInputId = nanoid();
-  phoneInputId = nanoid();
-  filterInputId = nanoid();
+  //poniższe id i propsy do nich do wykorzystania w złożonych formularzach, gdy ten sam komponent form będzie wykorzystywany w różnych miejscach i odnosic się do niego trzeba będzie unikalnym id
+  // nameInputId = nanoid();
+  // phoneInputId = nanoid();
+  // filterInputId = nanoid();
 
   handleChange = evt => {
     const { name, value } = evt.target;
     this.setState({ [name]: value });
   };
+  // handleFilter = event => {
+  //   const results = this.state.contacts.filter(contact => {
+  //     if (event.target.value === '') return this.state.contacts;
+  //     return contact.name
+  //       .toLowerCase()
+  //       .includes(event.target.value.toLowerCase());
+  //   });
+  //   this.setState({ filters: results });
+  // };
   handleFilter = event => {
-    const results = this.state.contacts.filter(contact => {
-      if (event.target.value === '') return this.state.contacts;
-      return contact.name
-        .toLowerCase()
-        .includes(event.target.value.toLowerCase());
-    });
-    this.setState({ filters: results });
+    this.setState({ filters: event.target.value });
   };
   handleSubmit = e => {
     e.preventDefault();
@@ -60,25 +64,28 @@ export class App extends React.Component {
   };
 
   render() {
-    const { filters } = this.state;
+    const { contacts, filters } = this.state;
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filters.toLowerCase())
+    );
 
     return (
       <div>
         <h1 className="main-title">Phonebook</h1>
         <section>
           <ContactForm
-            nameInputId={this.nameInputId}
-            phoneInputId={this.phoneInputId}
+            //nameInputId={this.nameInputId}
+            //phoneInputId={this.phoneInputId}
             inputChange={this.handleChange}
             leaveSubmit={this.handleSubmit}
-          ></ContactForm>
+          />
         </section>
         <section>
           <h2 className="title">Contacts</h2>
           <Filter
-            inputId={this.filterInputId}
+            //inputId={this.filterInputId}
             searchQuery={this.handleFilter}
-          ></Filter>
+          />
           <ContactList>
             {filters === '' ? (
               <ContactItem
@@ -87,7 +94,7 @@ export class App extends React.Component {
               ></ContactItem>
             ) : (
               <ContactItem
-                stateArray={this.state.filters}
+                stateArray={filteredContacts}
                 removeItem={this.removeContact}
               ></ContactItem>
             )}
