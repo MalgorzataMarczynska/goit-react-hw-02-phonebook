@@ -1,6 +1,6 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { Filter } from './Filter/Filter.js';
+import { Filter } from './filter/Filter.js';
 import { ContactList } from './ContactList/ContactList.js';
 import { ContactItem } from './ContactItem/ContactItem.js';
 import { ContactForm } from './ContactForm/ContactForm.js';
@@ -20,7 +20,7 @@ const INITIAL_STATE = {
 };
 export class App extends React.Component {
   state = { ...INITIAL_STATE };
-  //poniższe id i propsy do nich do wykorzystania w złożonych formularzach, gdy ten sam komponent form będzie wykorzystywany w różnych miejscach i odnosic się do niego trzeba będzie unikalnym id
+  //poniższe id i propsy do nich do wykorzystania w złożonych formularzach, gdy ten sam komponent form będzie wykorzystywany w różnych miejscach i odnosić się do niego trzeba będzie unikalnym id
   // nameInputId = nanoid();
   // phoneInputId = nanoid();
   // filterInputId = nanoid();
@@ -29,15 +29,7 @@ export class App extends React.Component {
     const { name, value } = evt.target;
     this.setState({ [name]: value });
   };
-  // handleFilter = event => {
-  //   const results = this.state.contacts.filter(contact => {
-  //     if (event.target.value === '') return this.state.contacts;
-  //     return contact.name
-  //       .toLowerCase()
-  //       .includes(event.target.value.toLowerCase());
-  //   });
-  //   this.setState({ filters: results });
-  // };
+
   handleFilter = event => {
     this.setState({ filters: event.target.value });
   };
